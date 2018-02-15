@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0213c273-b793-473f-8f83-55cff96db405" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://nightadder/labelprint/LabelGenerator.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="LabelGenerator.disco" MetadataType="Disco" ID="4f6b00a6-9ccf-4d8a-92f3-5e51ac79f376" SourceId="1" SourceUrl="http://nightadder/labelPrint/LabelGenerator.svc?disco" />
+    <MetadataFile FileName="LabelGenerator.wsdl" MetadataType="Wsdl" ID="a859d3f1-6273-42cf-95dd-e0ef2eda8737" SourceId="1" SourceUrl="http://nightadder/labelPrint/LabelGenerator.svc?wsdl" />
+    <MetadataFile FileName="LabelGenerator2.xsd" MetadataType="Schema" ID="44ea28a6-3a9a-4c2e-a033-d3806efeefbd" SourceId="1" SourceUrl="http://nightadder/labelPrint/LabelGenerator.svc?xsd=xsd2" />
+    <MetadataFile FileName="LabelGenerator.xsd" MetadataType="Schema" ID="a18c38d7-eda2-48b1-a8b1-0897093d755e" SourceId="1" SourceUrl="http://nightadder/labelPrint/LabelGenerator.svc?xsd=xsd0" />
+    <MetadataFile FileName="LabelGenerator1.xsd" MetadataType="Schema" ID="479481d0-9df4-4994-aa3f-4ecf2c9707f9" SourceId="1" SourceUrl="http://nightadder/labelPrint/LabelGenerator.svc?xsd=xsd1" />
+    <MetadataFile FileName="LabelGenerator3.xsd" MetadataType="Schema" ID="cb03ec5a-20b1-4f2e-a2fc-f9c508bb6de3" SourceId="1" SourceUrl="http://nightadder/labelPrint/LabelGenerator.svc?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

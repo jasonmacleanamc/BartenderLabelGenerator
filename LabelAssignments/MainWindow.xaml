@@ -1,0 +1,48 @@
+﻿<Window x:Class="LabelAssignments.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <WrapPanel Height="36" HorizontalAlignment="Left" Margin="12,12,0,0" Name="wrapPanel1" VerticalAlignment="Top" Width="428">
+            <Label Content="Part Number:" Height="28" Name="label1" />
+            <Line Width="15" />
+            <TextBox Height="23" Name="partNumberTB" Width="120" />
+            <Line Width="15" />
+            <Label Content="Version:" Height="28" Name="label2" />
+            <Line Width="15" />
+            <TextBox Height="23" Name="versionTB" Width="50" />
+            <Line Width="15" />
+            <Button Content="Get" Click="Button_Click" Name="partNumberBtn" Foreground="White" FontWeight="Bold" FontFamily="Source Sans Pro" Opacity="5" Width="38">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="Red" StrokeThickness="0">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0" Color="GreenYellow" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                        <GradientStop Offset="1" Color="Green" />
+                                        <RadialGradientBrush.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleY="0.65" />
+                                            </TransformGroup>
+                                        </RadialGradientBrush.Transform>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </WrapPanel>
+        <WrapPanel Height="38" HorizontalAlignment="Left" Margin="12,54,0,0" Name="wrapPanel2" VerticalAlignment="Top" Width="428">
+            <Label Content="Location:" Height="28" Name="label3" />
+            <Line Width="15" />
+            <ComboBox ItemsSource="{Binding Path=Locations}" Height="23" Name="locationCB" Width="120" />
+        </WrapPanel>
+        <CheckBox IsChecked="{Binding Path=SmallLabel, Mode=TwoWay}" Content="Small Label" Height="16" Name="smallLabelChk" Margin="22,106,670,439" />
+        <CheckBox Content="Large Label" Height="16" IsChecked="{Binding Path=LargeLabel, Mode=TwoWay}" Margin="22,139,670,406" Name="largeLabelChk" /> 
+            
+    </Grid>
+</Window>

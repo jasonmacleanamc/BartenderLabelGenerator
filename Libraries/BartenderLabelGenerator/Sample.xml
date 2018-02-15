@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<XMLScript Version="2.0"> 
+<Command Name="Job1"> 
+<Print> 
+<Format>c:\BarTender\Document1.btw</Format> 
+<RecordSet Name="Text File 1" Type="btTextFile"> 
+<Delimitation>btDelimQuoteAndComma</Delimitation> 
+<UseFieldNamesFromFirstRecord>true</UseFieldNamesFromFirstRecord> 
+<TextData> 
+<![CDATA[ 
+"FirstName","LastName","City","Zip Code" 
+"Adam","Jones","Bellevue","98008", 
+"John","Smith","Kirkland","98293" 
+]]> 
+</TextData> 
+</RecordSet> 
+</Print> 
+</Command> 
+</XMLScript> 

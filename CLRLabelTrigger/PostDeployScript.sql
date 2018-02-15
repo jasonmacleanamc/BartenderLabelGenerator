@@ -1,0 +1,1 @@
+﻿CREATE ASSEMBLY CLRLabel from 'C:\!Source Safe\Source\C#\BartenderLabelGenerator\CLRLabelTrigger\bin\Debug\CLRLabelTrigger.dll' 
