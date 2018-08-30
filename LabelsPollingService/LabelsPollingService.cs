@@ -13,6 +13,8 @@ namespace LabelsPollingService
         // ja - Volatile is used as hint to the compiler that this data member will be accessed by multiple threads
         private volatile bool _stopThread = false;
 
+        // ja- test
+
         // ja - This method will be called when the thread is started. 
         public void PollingThread()
         {
