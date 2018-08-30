@@ -96,10 +96,11 @@ namespace AMCCommon
                 {
                     Console.WriteLine("ReadPathFromRegistry - Writing Values, using Defaults");
 
-                    ServerName = "BUSHMASTER";
-                    DatabaseName = "ProductionManualLabels";
-                    DatabaseUserID = "prodmanuser";
-                    DatabasePW = "71m30u7";
+                    
+                    ServerName = "amc-sql01";
+                    DatabaseName = "AMC_MfgData";
+                    DatabaseUserID = "autest";
+                    DatabasePW = "autest1234";
                     SelectDelay = 2;
                     DeleteInterval = 15;
                     PollingInterval = 5;

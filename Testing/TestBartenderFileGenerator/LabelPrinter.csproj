@@ -26,9 +26,10 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationRevision>36</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -55,11 +56,10 @@
     <ApplicationIcon>Tuziibanez-Profesional-Red-Print.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>052906C60ABA729368A71A28E2026B35E7BDBB31</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>48C59C02A58EFB1691F9D2C8FD101BC8F5465A30</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>LabelPrinter_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -89,17 +89,30 @@
     <Compile Include="DataProgress.Designer.cs">
       <DependentUpon>DataProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="LabelRules.cs" />
     <Compile Include="LabelSelect.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LabelSelect.Designer.cs">
       <DependentUpon>LabelSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="RePrintPWForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RePrintPWForm.Designer.cs">
+      <DependentUpon>RePrintPWForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RMAData.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RMAData.Designer.cs">
       <DependentUpon>RMAData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SmtForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SmtForm.Designer.cs">
+      <DependentUpon>SmtForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TestLabelGen.cs">
       <SubType>Form</SubType>
@@ -115,8 +128,14 @@
     <EmbeddedResource Include="LabelSelect.resx">
       <DependentUpon>LabelSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RePrintPWForm.resx">
+      <DependentUpon>RePrintPWForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RMAData.resx">
       <DependentUpon>RMAData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SmtForm.resx">
+      <DependentUpon>SmtForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestLabelGen.resx">
       <DependentUpon>TestLabelGen.cs</DependentUpon>
@@ -130,6 +149,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="LabelPrinter_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,7 +162,7 @@
     <None Include="TestBartenderFileGenerator_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\__Git\Test Interface\TestResultsLib\TestResultsLib.csproj">
+    <ProjectReference Include="..\..\..\Common\TestResultsLib\TestResultsLib.csproj">
       <Project>{d48d37b6-1ad2-4900-a717-85ef1af559b7}</Project>
       <Name>TestResultsLib</Name>
     </ProjectReference>

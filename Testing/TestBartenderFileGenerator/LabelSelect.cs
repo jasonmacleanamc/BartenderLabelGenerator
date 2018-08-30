@@ -29,14 +29,14 @@ namespace TestBartenderFileGenerator
 
         private void ReadSelectedLabels()
         {
-            if (TheParent.IsFinal())
+            if (TheParent.Final)
             {
                 GetLabelTypesFromDataBase();
 
                 partNumberTB.Text = GetPartNumber();
                 versionUD.Value = Convert.ToDecimal(GetPartVersion());
                 jobNumberTB.Text = GetJobNumber();
-;
+
                 dateCodeTB.Text = GetDateCode();
                 revTB.Text = GetRevision();
                 inputTB.Text = GetInput();
@@ -47,7 +47,10 @@ namespace TestBartenderFileGenerator
         // TODO: ja - read from Label Gen Config
         public string GetConnectionString()
         {
-            string ConnectionString = "user id=" + "prodmanuser" + ";password=" + "71m30u7" + ";Data Source=" + "BUSHMASTER" + ";Initial Catalog=" + "ProductionManualLabels" + ";Integrated Security=True";
+
+            //string ConnectionString = "User Id=autest;password=autest1234;server=amc-sql01;database=AMC_MfgData;connection timeout=30;Integrated Security=False";
+            string ConnectionString = "user id=" + "autest" + ";password=" + "autest1234" + ";Data Source=" + "amc-sql01" + ";Initial Catalog=" + "AMC_MfgData" + ";Integrated Security=SSPI";
+            //string ConnectionString = "user id=" + "prodmanuser" + ";password=" + "71m30u7" + ";Data Source=" + "BUSH*MASTER" + ";Initial Catalog=" + "ProductionManualLabels" + ";Integrated Security=True";
 
             return ConnectionString;
         }
@@ -59,35 +62,40 @@ namespace TestBartenderFileGenerator
 
             SqlDataReader myReader = null;
             SqlConnection TheConnection = null;
-            string sPartNumber = GetPartNumber();
-            string sPartVersion = GetPartVersion();
 
             try
             {
+
+                string sPartNumber = GetPartNumber();
+                string sPartVersion = GetPartVersion();
+
                 TheConnection = new SqlConnection(ConnectionString);
+
+            // TEMP
+            //MessageBox.Show(ConnectionString);
 
                 TheConnection.Open();
 
                 // ja - get the label information from the database view
                 SqlCommand myCommand = new SqlCommand("select * from label_Data where Part_Number = '" + sPartNumber + "' and Part_Version = '" + sPartVersion + "'", TheConnection);
-                myReader = myCommand.ExecuteReader();              
+                myReader = myCommand.ExecuteReader();
 
                 // ja - loop through all of the assigned label types
-                while (myReader.Read())
-                {
+                while (myReader.Read())                {
+                  
                     // ja - get the information from the database
                     string sLocation = myReader["Location_Name"].ToString();
                     string sType = myReader["Label_Type_Name"].ToString();
                     string sQty = myReader["Print_Qty"].ToString();
-                    string sCustomerName = myReader["Customer_Name"].ToString();  
+                    string sCustomerName = myReader["Customer_Name"].ToString();               
 
                     int nRow = dataGridView1.Rows.Add();
-
+                    
                     dataGridView1.Rows[nRow].Cells[0].Value = true;
                     dataGridView1.Rows[nRow].Cells[1].Value = sLocation;
                     dataGridView1.Rows[nRow].Cells[2].Value = sType;
                     dataGridView1.Rows[nRow].Cells[3].Value = sQty;
-                    dataGridView1.Rows[nRow].Cells[4].Value = sCustomerName;                   
+                    dataGridView1.Rows[nRow].Cells[4].Value = sCustomerName;
                 }
 
                 myReader.Close();

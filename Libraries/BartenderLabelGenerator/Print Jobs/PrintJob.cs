@@ -53,13 +53,13 @@ namespace LabelGeneratorLib
                 df.SetPrintQuanity(LabelProperty.LabelQuanity);
 
                 df.SetCustomerName(LabelProperty.CustomerName);
-
+                
                 // ja - add the data to the job
                 df.SetWorkCodeData(wc);
 
                 // ja - add the column names
                 df.SetColumnNames(PMLabelData.GetPMColumnHeaders());
-
+                
                 // ja - add the job
                 DropFileDataList.Add(df);
 

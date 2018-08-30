@@ -1,39 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WCF", "WCF", "{4F01F087-2525-42CB-80DD-6625A8515063}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Print Libs", "Print Libs", "{71ABE565-DFAA-4688-B512-9DCF2769E26B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{35F2E85A-EBB4-4A8B-86A5-22CCBBDC0DAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{C34E738D-E959-432C-A582-CA3C9C00670F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D48ED044-7D74-4D70-9905-8A30D504A08E}"
 	ProjectSection(SolutionItems) = preProject
-		Common\EventLogger.cs = Common\EventLogger.cs
-		Common\Log.cs = Common\Log.cs
+		..\Common\Logs\Log.cs = ..\Common\Logs\Log.cs
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMServices", "PMServices\PMServices.csproj", "{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelCodePopulator", "LabelCodePopulator\LabelCodePopulator.csproj", "{D1920FEF-DEF8-4F7A-8A27-C80CD86BF19E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelsPollingService", "LabelsPollingService\LabelsPollingService.csproj", "{FF886144-273C-4B2F-ACF0-479316446BA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelAssignments (WCF)", "LabelAssignments\LabelAssignments (WCF).csproj", "{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMCDatabase", "..\Common\AmcDataConnection\AMCDatabase.csproj", "{02037B3B-581C-4039-95DE-5F4CFA22AF6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelGenerator", "Libraries\BartenderLabelGenerator\LabelGenerator.csproj", "{AE13809A-76A6-4DC6-9CEB-79933D2EF5B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{02037B3B-581C-4039-95DE-5F4CFA22AF6B} = {02037B3B-581C-4039-95DE-5F4CFA22AF6B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelPrinter", "Testing\TestBartenderFileGenerator\LabelPrinter.csproj", "{9CD3284B-13C2-4B42-BB49-6067AD90E0D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{02037B3B-581C-4039-95DE-5F4CFA22AF6B} = {02037B3B-581C-4039-95DE-5F4CFA22AF6B}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultsLib", "..\..\..\__Git\Test Interface\TestResultsLib\TestResultsLib.csproj", "{D48D37B6-1AD2-4900-A717-85EF1AF559B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultsLib", "..\Common\TestResultsLib\TestResultsLib.csproj", "{D48D37B6-1AD2-4900-A717-85EF1AF559B7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Logging", "..\Common\Logs\Logging\Logging.shproj", "{BBFA2045-D2A2-49E9-996B-65A5C24724FE}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\Common\Logs\Logging\Logging.projitems*{ae13809a-76a6-4dc6-9ceb-79933d2ef5b9}*SharedItemsImports = 4
+		..\Common\Logs\Logging\Logging.projitems*{bbfa2045-d2a2-49e9-996b-65a5c24724fe}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -43,16 +46,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032}.Release|x86.ActiveCfg = Release|Any CPU
 		{D1920FEF-DEF8-4F7A-8A27-C80CD86BF19E}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{D1920FEF-DEF8-4F7A-8A27-C80CD86BF19E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{D1920FEF-DEF8-4F7A-8A27-C80CD86BF19E}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -73,16 +66,6 @@ Global
 		{FF886144-273C-4B2F-ACF0-479316446BA1}.Release|Mixed Platforms.Build.0 = Release|x86
 		{FF886144-273C-4B2F-ACF0-479316446BA1}.Release|x86.ActiveCfg = Release|x86
 		{FF886144-273C-4B2F-ACF0-479316446BA1}.Release|x86.Build.0 = Release|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Debug|x86.ActiveCfg = Debug|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Debug|x86.Build.0 = Debug|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Release|Any CPU.ActiveCfg = Release|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Release|x86.ActiveCfg = Release|x86
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3}.Release|x86.Build.0 = Release|x86
 		{02037B3B-581C-4039-95DE-5F4CFA22AF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02037B3B-581C-4039-95DE-5F4CFA22AF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02037B3B-581C-4039-95DE-5F4CFA22AF6B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -130,12 +113,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{72CB9BE6-1992-403C-BBD9-DD5AC30FC032} = {4F01F087-2525-42CB-80DD-6625A8515063}
 		{D1920FEF-DEF8-4F7A-8A27-C80CD86BF19E} = {C34E738D-E959-432C-A582-CA3C9C00670F}
 		{FF886144-273C-4B2F-ACF0-479316446BA1} = {C34E738D-E959-432C-A582-CA3C9C00670F}
-		{F902FA1A-1496-40E7-8C26-2248FA7DB5F3} = {4F01F087-2525-42CB-80DD-6625A8515063}
 		{02037B3B-581C-4039-95DE-5F4CFA22AF6B} = {71ABE565-DFAA-4688-B512-9DCF2769E26B}
 		{AE13809A-76A6-4DC6-9CEB-79933D2EF5B9} = {71ABE565-DFAA-4688-B512-9DCF2769E26B}
 		{9CD3284B-13C2-4B42-BB49-6067AD90E0D3} = {C34E738D-E959-432C-A582-CA3C9C00670F}
+		{D48D37B6-1AD2-4900-A717-85EF1AF559B7} = {71ABE565-DFAA-4688-B512-9DCF2769E26B}
+		{BBFA2045-D2A2-49E9-996B-65A5C24724FE} = {D48ED044-7D74-4D70-9905-8A30D504A08E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AB31406-24E9-401D-B935-EBFD179CF7FD}
 	EndGlobalSection
 EndGlobal

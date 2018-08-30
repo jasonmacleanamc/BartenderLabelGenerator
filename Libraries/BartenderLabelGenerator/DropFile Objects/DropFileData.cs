@@ -77,7 +77,7 @@ namespace LabelGeneratorLib
             }
             catch (System.Exception ex)
             {
-                ConfigValues.TheLog.WriteInfo(ex.Message);
+                //ConfigValues.TheLog.WriteInfo(ex.Message);
             }                           
         }
         

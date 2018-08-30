@@ -21,7 +21,7 @@ namespace LabelGeneratorLib
         public static int SingleLabelQty = 1;
         public static Customers CustomerName = Customers.amc;      
         
-        public static bool _bTUV = false;
+        public static bool TUV = false;
         public static bool UseNewLabelCodes { get; set; }
 
         public static Log TheLog = new Log(System.IO.Directory.GetCurrentDirectory());
@@ -50,7 +50,7 @@ namespace LabelGeneratorLib
             ForcePrintNow = false;
             SingleLabelQty = 1;
             CustomerName = Customers.amc;
-            _bTUV = false;
+            TUV = false;
             RMADataOverride = false;
         }
 
@@ -107,7 +107,7 @@ namespace LabelGeneratorLib
                         
                         XmlNode tuvNode = child.SelectSingleNode("tuv");
                         if (Convert.ToBoolean(tuvNode.InnerText))
-                            _bTUV = true;
+                            TUV = true;
                         break;
                     }                    
                 }
@@ -122,8 +122,8 @@ namespace LabelGeneratorLib
 
         public static string GetConnectionString()
         {
-            string ConnectionString = "user id=" + DatabaseUserID + ";password=" + DatabasePW + ";Data Source=" + DBServerName + ";Initial Catalog=" + DatabaseName + ";Integrated Security=True";
-
+            string ConnectionString = "user id=" + DatabaseUserID + ";password=" + DatabasePW + ";Data Source=" + DBServerName + ";Initial Catalog=" + DatabaseName;// + ";Integrated Security=SSPI";
+            
             return ConnectionString;
         }
 
@@ -177,17 +177,17 @@ namespace LabelGeneratorLib
                 else
                 {
                     Console.WriteLine("ReadPathFromRegistry - Writing Values, using Defaults");
-
+                   
                     HeaderPosition = 3;
                     TextDropDirectory = "btFileDrop";
                     BtwFileDirectory = "btwFiles";
                     ConfigFilePath = @"\\nightadder\btwFiles\BTLabelApp.config";
                     ServerName = @"\\nightadder";
                     AllwaysUseDrop = true;
-                    DBServerName = "BUSHMASTER";
-                    DatabaseName = "ProductionManualLabels";
-                    DatabaseUserID = "prodmanuser";
-                    DatabasePW = "71m30u7";
+                    DBServerName = "amc-sql01";
+                    DatabaseName = "AMC_MfgData";
+                    DatabaseUserID = "autest";
+                    DatabasePW = "autest1234";
 
 //#if DEBUG
                     RegistryKey amcKey = Registry.CurrentUser.CreateSubKey(REGISTRY_PATH);

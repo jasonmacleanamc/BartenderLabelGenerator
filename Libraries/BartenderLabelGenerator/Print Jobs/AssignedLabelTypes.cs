@@ -236,11 +236,12 @@ namespace LabelGeneratorLib
                     // ja - if the printer area matches the passed in area (Physical Printer) add to queue
                     if (area == ePrinterArea)
                     {
-                        LabelProperitys lp = new LabelProperitys();
-
-                        lp.CustomerName = sCustomerName;
-                        lp.LabelQuanity = Convert.ToInt32(sQty);
-                        lp.AssingedLabel = type;
+                        LabelProperitys lp = new LabelProperitys
+                        {
+                            CustomerName = sCustomerName,
+                            LabelQuanity = Convert.ToInt32(sQty),
+                            AssingedLabel = type
+                        };
 
                         AssignedLabels.Add(lp);
                     }

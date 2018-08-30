@@ -25,6 +25,44 @@ namespace TestBartenderFileGenerator
         private bool PopulatingList { get; set; }
         public bool PrintJobFound { get; private set; }
         public bool BurstLabels { get; private set; }
+        public int SmtCount { get; private set; }
+        public bool Smt
+        {
+            get { return smtRB.Checked; }
+            private set { }
+        }
+
+        public bool Final
+        {
+            get { return finalRB.Checked; }
+            private set { }
+        }
+
+        public bool BasePlate
+        {
+            get { return baseplateRB.Checked; }
+            private set { }
+        }
+
+        public bool InProcess
+        {
+            get { return inProcessRB.Checked; }
+            private set { }
+        }
+
+        public bool Rma
+        {
+            get { return rmaCB.Checked; }
+            private set { }
+        }
+
+        public string WorkCode
+        {
+            get { return GetWorkCode(); }
+            private set { }
+        }
+
+        private List<string> BasePlateNotBurstedList = new List<string>();
 
         private TestResults TheTestResults;
 
@@ -107,6 +145,31 @@ namespace TestBartenderFileGenerator
         }
 
 
+        private void PrintSMT()
+        {
+          
+            for (int i = 0; i < SmtCount; i++)
+            {
+                listView1.Items.Add(workcodeTB.Text);
+            }
+
+            foreach (ListViewItem item in listView1.Items)
+            {
+                item.Checked = true;
+            }
+
+            PrintJobFound = LabelGeneratorLib.AddPrintJob(ThePrinterArea, GetWorkCode(), true);
+
+            printBtn.Enabled = true;
+            printBtn.Visible = true;
+
+            printBtn.PerformClick();
+
+            printBtn.Enabled = false;
+            printBtn.Visible = false;
+
+        }
+
         private void InitLabelGen()
         {
             if (singleFinalRB.Checked == true)
@@ -130,6 +193,12 @@ namespace TestBartenderFileGenerator
 
                 DisableAllControls();
 
+                if (Smt)
+                {
+                    PrintSMT();
+                    return;
+                }
+
                 // ja - launch a background worker thread to read in the data
                 BackgroundWorker worker = new BackgroundWorker();
                 worker.DoWork += delegate { AddPrintJobThread(); };
@@ -146,7 +215,7 @@ namespace TestBartenderFileGenerator
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw;
+                MessageBox.Show("Invalid Workcode Entered");
             }                         
 
             // ja - enable or disable check all 
@@ -172,12 +241,12 @@ namespace TestBartenderFileGenerator
             if (PrintJobFound)
             {
                 PopulatingList = true;
-
+              
                 for (int i = 1001; i < (1001 + LabelGeneratorLib.GetLabelQty()); i++)
                 {
                     string sSerialNumber = workcodeTB.Text + "-" + i.ToString();
                     listView1.Items.Add(sSerialNumber);
-                }
+                }                                           
 
                 PopulatingList = false;
 
@@ -190,6 +259,38 @@ namespace TestBartenderFileGenerator
             TheDataDialog.Close();
         }
 
+
+        private bool RePrintPromt()
+        {
+            DialogResult rst = DialogResult.No;
+            if (rePrintChk.Checked)
+            {
+                rst = DialogResult.Yes;
+            }
+
+//             DialogResult rst = MessageBox.Show("Is this a Re-Print?", "Label Printer", MessageBoxButtons.YesNo,
+//                           MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+            if (rst == DialogResult.No)
+            {
+                BurstLabels = true;
+                return true;
+            }
+
+            if (rst == DialogResult.Yes)
+            {
+                RePrintPWForm dlg = new RePrintPWForm();
+
+                DialogResult newrst = dlg.ShowDialog();
+
+                if (newrst == DialogResult.OK)
+                    return true;
+                else
+                    return false;
+            }
+
+            return false;
+        }
 
         // ja - to make the call to the listview thread safe
         //         private delegate ListView.ListViewItemCollection GetItems(ListView lstview);
@@ -211,6 +312,7 @@ namespace TestBartenderFileGenerator
         {
             StatusLabel.Text = "Reading Data from Database...";
 
+           
             GoBtn.Enabled = false;
             printBtn.Enabled = false;
 
@@ -222,30 +324,55 @@ namespace TestBartenderFileGenerator
             string sLabelLocation = "";
             ThePrinterArea = 0;
 
-            if (smtRB.Checked)
+                      
+            if (Smt)
             {
-                sLabelLocation = "serial1";
+                sLabelLocation = "smt_label";
                 ThePrinterArea = PrinterArea.smt;
+
+                SmtForm dlg = new SmtForm();
+                var res = dlg.ShowDialog();
+
+                if (res == DialogResult.OK)
+                {
+                    SmtCount = dlg.SmtCount;
+                    workcodeTB.Text = dlg.WorkCode;
+                    GoBtn.Text = "Print";
+                    clearBtn.Visible = false;
+                    printBtn.Visible = false;
+                }
+                else
+                    return;
+
             }
-            else if (baseplateRB.Checked)
+            else if (BasePlate)
             {
                 sLabelLocation = "Large_AMC_BasePlate";
                 //sLabelLocation = "burst1_2d";
                 ThePrinterArea = PrinterArea.baseplate;
+
+                if (CheckForBurstedSerials())
+                {
+                    BurstLabels = true;
+                }
+
             }
-            else if (inProcessRB.Checked)
+            else if (InProcess)
             {
                 sLabelLocation = "Small_AMC_InProcess";
                 //sLabelLocation = "inproc2_2d";
                 ThePrinterArea = PrinterArea.in_process;
 
-                // ja - for in process ask if this is a re print otherwise labels will be bursted into amplifs
-                if (MessageBox.Show("Is this a Re-Print?", "Label Printer", MessageBoxButtons.YesNo, 
-                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-                    BurstLabels = true;
+                if (!RePrintPromt())
+                {
+                    MessageBox.Show("Aborting Printing");
+                    reset_btn.PerformClick();
+                    return;
+                }
+
 
             }
-            else if (finalRB.Checked)
+            else if (Final)
             {
                 sLabelLocation = "inproc2_2d";
                 ThePrinterArea = PrinterArea.final;
@@ -272,7 +399,7 @@ namespace TestBartenderFileGenerator
             clearBtn.Enabled = true;
             printBtn.Enabled = true;
 
-            if (BurstLabels)
+            if (BurstLabels && InProcess)
                 RemoveBurstedSerials();
 
             StatusLabel.Text = "Data Populated...";
@@ -351,7 +478,10 @@ namespace TestBartenderFileGenerator
             {
                 if (item.Checked)
                 {
-                    list.Add(item.Text);
+                    if (Smt)
+                        list.Add(item.Text.Substring(0, 5));
+                    else
+                        list.Add(item.Text);
                 }
             }
 
@@ -384,6 +514,43 @@ namespace TestBartenderFileGenerator
             
         }
 
+        private bool CheckForBurstedSerials()
+        {
+            bool bRet = false;
+
+            PMDatabases.UpdateDatabases burstData = new PMDatabases.UpdateDatabases();
+
+            BasePlateNotBurstedList.Clear();
+
+            List<string> burstedList = new List<string>();
+            List<string> serialList = new List<string>();
+
+            try
+            {
+                burstedList = burstData.GetExistingSerials(WorkCode);
+
+                int nQty = LabelGen.GetLabelQtyFromWorkCode(WorkCode);
+
+                for (int i = 1001; i < (1001 + nQty); i++)
+                {
+                    string sSerialNumber = workcodeTB.Text + "-" + i.ToString();
+                    serialList.Add(sSerialNumber);
+                }
+
+                BasePlateNotBurstedList = serialList.Except(burstedList).ToList();
+
+                if (BasePlateNotBurstedList.Count > 0)
+                    bRet = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return bRet;
+
+        }
+
         private void BurstSerials(List<string> theSerials)
         {
 
@@ -411,24 +578,69 @@ namespace TestBartenderFileGenerator
                     nPosition++;                    
                 }
 
-                burstData.Burst(serialNumbers, sPartNumber, sWorkCode);
+                try
+                {
+                    if (!burstData.Burst(serialNumbers, sPartNumber, sWorkCode))
+                    {
+                        TestResults.LogLables(theSerials, false, "InProcess", "", true);
+                        MessageBox.Show("Error Bursting labels, please try again!");
+                    }
+
+                    LogLables(theSerials);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+               
             }
 
 //#endif
         }
 
+        private void Burst(List<string> serialsList)
+        {
+            try
+            {
+                if (InProcess)
+                    BurstSerials(serialsList);
+                else if (BasePlate)
+                {
+                    List<string> selectedSerials = new List<string>();
+
+                    selectedSerials = BasePlateNotBurstedList.Intersect(serialsList).ToList();
+
+                    BurstSerials(selectedSerials);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
+        }
+
         private void printBtn_Click(object sender, EventArgs e)
         {
-            if (rmaCB.Checked && finalRB.Checked)
+            if (Rma && Final)
                 ShowRmaDlg();            
 
             printBtn.Enabled = false;
           
-            if (finalRB.Checked && workCodeCB.Checked)
+            if (Final && workCodeCB.Checked)
             {
-                string sWorkCode = workcodeTB.Text.Trim();
-                PrintLabel(sWorkCode);
-                return;
+                try
+                {
+                    string sWorkCode = workcodeTB.Text.Trim();
+                    PrintLabel(sWorkCode);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+               
             }
 
             List<string> serialsList = GetSerials();
@@ -447,9 +659,10 @@ namespace TestBartenderFileGenerator
             {
                 // ja - burst the serial numbers
                 if (BurstLabels)
-                    BurstSerials(serialsList);
+                {
+                    Burst(serialsList);
 
-                LogLables(serialsList);
+                }            
 
                 MessageBox.Show(serialsList.Count.ToString() +  " - Labels Printed Successfully");                            
             }
@@ -466,22 +679,21 @@ namespace TestBartenderFileGenerator
 
         private void LogLables(List<string> serialsList)
         {
-            bool bIsRma = rmaCB.Checked;
             string sLabelStation = "";
             string sLabelType = GetFinalDropDownValue(false);
 
-            if (smtRB.Checked)
+            if (Smt)
                 sLabelStation = "SMT";
-            else if (baseplateRB.Checked)
+            else if (BasePlate)
                 sLabelStation = "BasePlate";
-            else if (inProcessRB.Checked)
+            else if (InProcess)
                 sLabelStation = "InProcess";
-            else if (finalRB.Checked)
+            else if (Final)
                 sLabelStation = "Final";
 
             try
             {
-                TestResults.LogLables(serialsList, bIsRma, sLabelStation, sLabelType, BurstLabels);
+                TestResults.LogLables(serialsList, Rma, sLabelStation, sLabelType, BurstLabels);
 
             }
             catch (Exception ex)
@@ -510,7 +722,7 @@ namespace TestBartenderFileGenerator
 
 #if !DEBUG
 //             // ja - we canot allow them to do this for final becaus of the label check
-//             if (finalRB.Checked)
+//             if (Final)
 //             {
 //                 MessageBox.Show("Select all is Disabled for Final Labels");
 //                 return;
@@ -540,7 +752,7 @@ namespace TestBartenderFileGenerator
 //#if !DEBUG
 
             // ja - Check for test and burn requirements 
-            if (finalRB.Checked && !PopulatingList)// && checkAllChk.Checked)
+            if (Final && !PopulatingList)// && checkAllChk.Checked)
             {
                 string sSerialNumber = e.Item.SubItems[0].Text;
                 if (!CheckTestResults(sSerialNumber))
@@ -566,7 +778,7 @@ namespace TestBartenderFileGenerator
 
         private bool CheckTestResults(string sSerialNumber)
         {
-            if (rmaCB.Checked)
+            if (Rma)
                 return true;
 
             string sMsgStart = sSerialNumber + " - Has Not Passed the Following:";
@@ -656,7 +868,7 @@ namespace TestBartenderFileGenerator
 
         private void finalRB_CheckedChanged(object sender, EventArgs e)
         {
-            bool bIsChecked = finalRB.Checked;
+            bool bIsChecked = Final; 
 
             SetFinalControls(bIsChecked);
         }
@@ -664,6 +876,11 @@ namespace TestBartenderFileGenerator
         private void smtRB_CheckedChanged(object sender, EventArgs e)
         {
             SetWorkCodeSettings();
+
+            GoBtn.Text = "Print";
+            clearBtn.Visible = false;
+            printBtn.Visible = false;
+            workcodeTB.Enabled = false;
         }
 
         private void inProcessRB_CheckedChanged(object sender, EventArgs e)
@@ -684,13 +901,17 @@ namespace TestBartenderFileGenerator
 
         private void SetFinalControls(bool bEnabled)
         {
-            bool bIsChecked = finalRB.Checked;
+            bool bIsChecked = Final;
 
             workCodeCB.Enabled = true;
             workCodeCB.Checked = true;
 
             singleFinalRB.Enabled = bIsChecked;
             genericRB.Enabled = bIsChecked;
+
+            GoBtn.Text = "Get";
+            clearBtn.Visible = true;
+            workcodeTB.Enabled = true;
 
         }
 
@@ -910,6 +1131,14 @@ namespace TestBartenderFileGenerator
 
             BurstLabels = false;
 
+            BasePlateNotBurstedList.Clear();
+
+            GoBtn.Text = "Get";
+            printBtn.Visible = true;
+            clearBtn.Visible = true;
+
+            rePrintChk.Checked = false;
+
             // ja -Temp
             //singleFinalRB.Enabled = false;
         }
@@ -1023,12 +1252,7 @@ namespace TestBartenderFileGenerator
             // TODO: ja - get results from gridview and modify print job
         }
 
-        // ja - Public functions for Select Label Dialog
-
-        public bool IsFinal()
-        {
-            return finalRB.Checked;
-        }
+        // ja - Public functions for Select Label Dialog       
 
         public string GetJobNumber()
         {
