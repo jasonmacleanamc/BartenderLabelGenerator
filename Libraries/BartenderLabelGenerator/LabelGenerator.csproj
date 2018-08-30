@@ -31,9 +31,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AMCDatabase">
-      <HintPath>..\..\AmcDataConnection\bin\Debug\AMCDatabase.dll</HintPath>
+      <HintPath>..\..\..\Common\AmcDataConnection\bin\Debug\AMCDatabase.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -45,9 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Common\Log.cs">
-      <Link>Log.cs</Link>
-    </Compile>
     <Compile Include="Config Objects\ConfigValues.cs" />
     <Compile Include="DropFile Objects\DropFileHeader.cs" />
     <Compile Include="DropFile Objects\BartenderTextFile.cs" />
@@ -85,6 +88,7 @@
   <ItemGroup>
     <Content Include="Config Objects\LabelRules.xml" />
   </ItemGroup>
+  <Import Project="..\..\..\Common\Logs\Logging\Logging.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

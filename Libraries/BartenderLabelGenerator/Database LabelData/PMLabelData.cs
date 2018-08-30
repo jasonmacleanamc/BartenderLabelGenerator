@@ -248,7 +248,7 @@ namespace LabelGeneratorLib
                 //bool bTuv = false;
                 
                  // if label type is A then read xml file of same btw name
-                bool bTuv = ConfigValues._bTUV;
+                bool bTuv = ConfigValues.TUV;
                 
                 return bTuv;
             }

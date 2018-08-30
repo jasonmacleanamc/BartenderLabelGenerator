@@ -148,6 +148,15 @@ namespace LabelGeneratorLib
             return printJobs.GetLabelQuanity();
         }
 
+        static public int GetLabelQtyFromWorkCode(string sWorkCode)
+        {
+            Workcode wc = new Workcode(sWorkCode);
+
+            int nQty = Convert.ToInt32(wc.GetValue("quantity"));
+
+            return nQty;
+        }
+
         // ja - need to manipulate the data for RMA's
         public void ModifyRMAData(LabelDataStruct newData)
         {

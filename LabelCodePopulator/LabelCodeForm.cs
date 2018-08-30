@@ -33,8 +33,9 @@ namespace LabelCodePopulator
             final = 100            
         }
 
-        private string ConnectionString = "Data Source=BUSHMASTER;Initial Catalog=ProductionManualLabels;Integrated Security=True";
-
+        private string ConnectionString = "User Id=autest;password=autest1234;server=amc-sql01;database=AMC_MfgData;connection timeout=30";
+        //private string ConnectionString = "Data Source=BUSH*MASTER;Initial Catalog=ProductionManualLabels;Integrated Security=True";
+       
         private string PartNumber { get; set; }
         private string Version { get; set; }
         private string LabelsCode { get; set; }
